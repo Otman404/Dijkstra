@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
   <title>Vis Network | Data | DataSet</title>
   <link rel="stylesheet" href="./style.css">
 
@@ -57,12 +58,12 @@
               <tr>
                 <td></td>
                 <td><label for="edge-from">From</label></td>
-                <td><input id="edge-from" type="text" value="1" /></td>
+                <td><input id="edge-from" type="text" value="A" /></td>
               </tr>
               <tr>
                 <td></td>
                 <td><label for="edge-to">To</label></td>
-                <td><input id="edge-to" type="text" value="2" /></td>
+                <td><input id="edge-to" type="text" value="B" /></td>
               </tr>
               <tr>
                 <td></td>
@@ -84,7 +85,7 @@
       </tr>
     </tbody>
   </table>
-
+  <button onclick="getShortestPath()" value="CLICK ME">CLICK ME</button>
   <h1>View</h1>
   <table class="view">
     <colgroup>
