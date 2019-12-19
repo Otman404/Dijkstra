@@ -1,0 +1,8 @@
+//todo
+
+Save settings to a json file
+
+add capacity input
+
+
+Vis.Network : 54253
