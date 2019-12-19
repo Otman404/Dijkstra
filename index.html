@@ -6,6 +6,8 @@
   <link rel="shortcut icon" type="image/png" href="favicon.png"/>
   <title>Vis Network | Data | DataSet</title>
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+  <script src="bootstrap/js/bootstrap.js"></script>
 
 </head>
 
@@ -85,7 +87,14 @@
       </tr>
     </tbody>
   </table>
-  <button onclick="getShortestPath()" value="CLICK ME">CLICK ME</button>
+  <fieldset>
+    <label for="start">Start node: </label>
+    <input type="text" id="start"><br>
+    <label for="finish">Start node: </label>
+    <input type="text" id="finish">
+
+  </fieldset>
+  <button onclick="getShortestPath()" value="CLICK ME">Dijkstra</button>
   <h1>View</h1>
   <table class="view">
     <colgroup>

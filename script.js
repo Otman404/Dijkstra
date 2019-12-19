@@ -133,141 +133,171 @@ function draw() {
 
 
 
-  const dijkstra = (edges, source, target) => {
-    const Q = new Set(),
-      prev = {},
-      dist = {},
-      adj = {}
+const dijkstra = (edges, source, target) => {
+  const Q = new Set(),
+    prev = {},
+    dist = {},
+    adj = {}
 
-    const vertex_with_min_dist = (Q, dist) => {
-      let min_distance = Infinity,
-        u = null
+  const vertex_with_min_dist = (Q, dist) => {
+    let min_distance = Infinity,
+      u = null
 
-      for (let v of Q) {
-        if (dist[v] < min_distance) {
-          min_distance = dist[v]
-          u = v
-        }
-      }
-      return u
-    }
-
-    for (let i = 0; i < edges.length; i++) {
-      let v1 = edges[i][0],
-        v2 = edges[i][1],
-        len = edges[i][2]
-
-      Q.add(v1)
-      Q.add(v2)
-
-      dist[v1] = Infinity
-      dist[v2] = Infinity
-
-      if (adj[v1] === undefined) adj[v1] = {}
-      if (adj[v2] === undefined) adj[v2] = {}
-
-      adj[v1][v2] = len
-      adj[v2][v1] = len
-    }
-
-    dist[source] = 0
-
-    while (Q.size) {
-      let u = vertex_with_min_dist(Q, dist),
-        neighbors = Object.keys(adj[u]).filter(v => Q.has(v)) //Neighbor still in Q 
-
-      Q.delete(u)
-
-      if (u === target) break //Break when the target has been found
-
-      for (let v of neighbors) {
-        let alt = dist[u] + adj[u][v]
-        if (alt < dist[v]) {
-          dist[v] = alt
-          prev[v] = u
-        }
+    for (let v of Q) {
+      if (dist[v] < min_distance) {
+        min_distance = dist[v]
+        u = v
       }
     }
+    return u
+  }
 
-    {
-      let u = target,
-        S = [u],
-        len = 0
+  for (let i = 0; i < edges.length; i++) {
+    let v1 = edges[i][0],
+      v2 = edges[i][1],
+      len = edges[i][2]
 
-      while (prev[u] !== undefined) {
-        S.unshift(prev[u])
-        len += adj[u][prev[u]]
-        u = prev[u]
+    Q.add(v1)
+    Q.add(v2)
+
+    dist[v1] = Infinity
+    dist[v2] = Infinity
+
+    if (adj[v1] === undefined) adj[v1] = {}
+    if (adj[v2] === undefined) adj[v2] = {}
+
+    adj[v1][v2] = len
+    adj[v2][v1] = len
+  }
+
+  dist[source] = 0
+
+  while (Q.size) {
+    let u = vertex_with_min_dist(Q, dist),
+      neighbors = Object.keys(adj[u]).filter(v => Q.has(v)) //Neighbor still in Q 
+
+    Q.delete(u)
+
+    if (u === target) break //Break when the target has been found
+
+    for (let v of neighbors) {
+      let alt = dist[u] + adj[u][v]
+      if (alt < dist[v]) {
+        dist[v] = alt
+        prev[v] = u
       }
-      return [S, len]
     }
   }
 
+  {
+    let u = target,
+      S = [u],
+      len = 0
 
-
-
-  function updateEdge1(id,from,to,capacity) {
-    try {
-      edges.update({
-        id: id,
-        from: from,
-        to: to,
-        capacity: capacity,
-        label: capacity,
-        // color: { highlight: "red"},
-        font : {
-          enabled: true,
-          size: 25,
-          face: 'solid',
-          color: 'black',
-        },
-        background: {
-          enabled: true,
-          size:5,
-          color: "rgba(32, 191, 107,1.0)"
-        }
-      });
-    } catch (err) {
-      alert(err);
+    while (prev[u] !== undefined) {
+      S.unshift(prev[u])
+      len += adj[u][prev[u]]
+      u = prev[u]
     }
+    return [S, len]
   }
+}
 
-function getShortestPath(){
+
+
+
+function colorShortestPath(id, from, to, capacity) {
+  try {
+    edges.update({
+      id: id,
+      from: from,
+      to: to,
+      capacity: capacity,
+      label: capacity,
+      // color: { highlight: "red"},
+      font: {
+        enabled: true,
+        size: 25,
+        face: 'solid',
+        color: 'black',
+      },
+      background: {
+        enabled: true,
+        size: 5,
+        color: "rgba(32, 191, 107,1.0)"
+      }
+    });
+  } catch (err) {
+    alert(err);
+  }
+}
+function colorShortestPathDefaut(id, from, to, capacity) {
+  try {
+    edges.update({
+      id: id,
+      from: from,
+      to: to,
+      capacity: capacity,
+      label: capacity,
+      background:{enabled: false}
+    });
+  } catch (err) {
+    alert(err);
+  }
+}
+
+async function getShortestPath() {
   var gNodes = document.getElementById("nodes").innerHTML;
   var gEdges = document.getElementById("edges").innerHTML;
+  var start = document.getElementById("start").value;
+  var finish = document.getElementById("finish").value;
+  if (gNodes.length != 0 && gEdges.length != 0) {
+    gNodes = JSON.parse(document.getElementById("nodes").innerHTML);
+    gEdges = JSON.parse(document.getElementById("edges").innerHTML);
 
-  if (gNodes.length!=0 && gEdges.length!=0){
-     gNodes = JSON.parse(document.getElementById("nodes").innerHTML);
-     gEdges = JSON.parse(document.getElementById("edges").innerHTML);
-     
-     //Testing algorithm
-     let graph = []
-     for(var i = 0;i<gEdges.length;i++){
-       graph.push([gEdges[i].from, gEdges[i].to, parseInt(gEdges[i].capacity)]);
-       
-      }
-      
-      let [path, length] = dijkstra(graph, gNodes[0].id , gNodes[gNodes.length - 2].id);
-      var j=0;
-      for(var i=0;i<gEdges.length;i++){
- 
-        if((gEdges[i].from === path[j]) && (gEdges[i].to === path[j+1])){
-          updateEdge1(gEdges[i].id,gEdges[i].from,gEdges[i].to,gEdges[i].capacity);
-          if(j<path.length) j++;
-          console.log("INSIDE THE LOOP");
+    for (var j = 0; j < gEdges.length; j++) {
+      colorShortestPathDefaut(gEdges[j].id, gEdges[j].from, gEdges[j].to, gEdges[j].capacity);
+    }
+    //Testing algorithm
+    let graph = []
+    for (var i = 0; i < gEdges.length; i++) {
+      graph.push([gEdges[i].from, gEdges[i].to, parseInt(gEdges[i].capacity)]);
+
+    }
+
+    let [path, length] = dijkstra(graph, start, finish);
+
+    for (var i = 0; i < path.length; i++) {
+      for (var j = 0; j < gEdges.length; j++) {
+
+        if ((gEdges[j].from === path[i]) && (gEdges[j].to === path[i + 1]) ||  (gEdges[j].to === path[i]) && (gEdges[j].from === path[i + 1]) ) {
+          colorShortestPath(gEdges[j].id, gEdges[j].from, gEdges[j].to, gEdges[j].capacity);
+          await sleep(1000);
         }
       }
-      
-      
-      console.log(path) //[ 'a', 'c', 'f', 'e' ]
-      console.log(length) //20
     }
-      
-    }
-    
+
+
+    console.log(path) //[ 'a', 'c', 'f', 'e' ]
+    console.log(length) //20
+  }
+
+}
+
 
 
 window.addEventListener("load", () => {
   draw();
 });
 
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+function resetGraphColor(gEdges){
+  for (var j = 0; j < gEdges.length; j++) {
+    colorShortestPathDefaut(gEdges[j].id, gEdges[j].from, gEdges[j].to, gEdges[j].capacity);
+  }
+}
