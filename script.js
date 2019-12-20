@@ -9,8 +9,9 @@ function addNode() {
   try {
     nodes.add({
       id: document.getElementById("node-id").value,
-      label: document.getElementById("node-label").value
+      label: document.getElementById("node-id").value
     });
+    printNodesTable();
   } catch (err) {
     alert(err);
   }
@@ -20,7 +21,7 @@ function updateNode() {
   try {
     nodes.update({
       id: document.getElementById("node-id").value,
-      label: document.getElementById("node-label").value
+      label: document.getElementById("node-id").value
     });
   } catch (err) {
     alert(err);
@@ -43,6 +44,7 @@ function addEdge() {
       capacity: document.getElementById("edge-capacity").value,
       label: document.getElementById("edge-capacity").value
     });
+    printEdgesTable();
   } catch (err) {
     alert(err);
   }
@@ -251,7 +253,7 @@ async function getShortestPath() {
   var gEdges = document.getElementById("edges").innerHTML;
   var start = document.getElementById("start").value;
   var finish = document.getElementById("finish").value;
-  if (gNodes.length != 0 && gEdges.length != 0) {
+  if (gNodes.length != 0 && gEdges.length != 0 && start.length != 0 && finish.length != 0) {
     gNodes = JSON.parse(document.getElementById("nodes").innerHTML);
     gEdges = JSON.parse(document.getElementById("edges").innerHTML);
 
@@ -277,9 +279,19 @@ async function getShortestPath() {
       }
     }
 
+    for(var k =0;k<path.length;k++){
+      document.getElementById('pcc').innerText += path[k];
+      if(k<path.length-1)
+      document.getElementById('pcc').innerText += ' -> ';
 
+
+    }
+    // document.getElementById('pcc').innerText = path;
+    document.getElementById('longueur').innerText = length;
     console.log(path) //[ 'a', 'c', 'f', 'e' ]
     console.log(length) //20
+  }else{
+    alert('Please specify the start and the finish nodes');
   }
 
 }
@@ -300,4 +312,53 @@ function resetGraphColor(gEdges){
   for (var j = 0; j < gEdges.length; j++) {
     colorShortestPathDefaut(gEdges[j].id, gEdges[j].from, gEdges[j].to, gEdges[j].capacity);
   }
+}
+
+function printNodesTable(){
+  document.getElementById('nodesTable').innerText="";
+    var nodes = document.getElementById('nodes').innerText;
+    if(nodes.length!=0){
+
+      nodes = JSON.parse(document.getElementById('nodes').innerText);
+      var table = document.getElementById("nodesTable");
+   
+      for(var k =0;k<nodes.length;k++){
+        var row = table.insertRow(k);
+        var cell1 = row.insertCell(0)
+        cell1.innerHTML = nodes[k].id;
+      }
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0)
+      cell1.innerHTML = "nodes";
+    }
+}
+
+function printEdgesTable(){
+  document.getElementById('edgesTable').innerText="";
+    var edges = document.getElementById('edges').innerText;
+    var t=['id','from','to','capacity'];
+    if(nodes.length!=0){
+
+      edges = JSON.parse(document.getElementById('edges').innerText);
+      var table = document.getElementById("edgesTable");
+      var cell1;
+      for(var k =0;k<edges.length;k++){
+        var row = table.insertRow(k);
+        for(var i=0;i<4;i++){
+          cell1  = row.insertCell(i);
+          cell1.innerHTML = edges[k][t[i]];
+          //console.log(edges[k][i]);
+        }
+        
+      }
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+      cell1.innerHTML = "ID";
+      cell2.innerHTML = "Source";
+      cell3.innerHTML = "Destination";
+      cell4.innerHTML = "Capacité";
+    }
 }

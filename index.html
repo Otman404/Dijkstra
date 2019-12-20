@@ -3,130 +3,385 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
-  <title>Vis Network | Data | DataSet</title>
+  <link rel="shortcut icon" type="image/png" href="favicon.png" />
+  <title>Algorithm Dijsktra</title>
   <link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
-  <script src="bootstrap/js/bootstrap.js"></script>
-
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.10.1/css/mdb.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!-- partial:index.partial.html -->
-  <p>
-    This example demonstrates dynamically adding, updating and removing nodes and
-    edges using a DataSet.
-  </p>
 
-  <h1>Adjust</h1>
-  <table>
-    <tbody>
-      <tr>
-        <td>
-          <h2>Node</h2>
-          <table>
-            <tbody>
-              <tr>
-                <td></td>
-                <td><label for="node-id">Id</label></td>
-                <td><input id="node-id" type="text" value="2" /></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td><label for="node-label">Label</label></td>
-                <td><input id="node-label" type="text" value="B" /></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>Action</td>
-                <td>
-                  <button id="node-add" onclick="addNode();">Add</button>
-                  <button id="node-update" onclick="updateNode();">Update</button>
-                  <button id="node-remove" onclick="removeNode();">Remove</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-        <td>
-          <h2>Edge</h2>
-          <table>
-            <tbody>
-              <tr>
-                <td></td>
-                <td><label for="edge-id">Id</label></td>
-                <td><input id="edge-id" type="text" value="1" /></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td><label for="edge-from">From</label></td>
-                <td><input id="edge-from" type="text" value="A" /></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td><label for="edge-to">To</label></td>
-                <td><input id="edge-to" type="text" value="B" /></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td><label for="edge-capacity">Capacity</label></td>
-                <td><input id="edge-capacity" type="text" value="10" /></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>Action</td>
-                <td>
-                  <button id="edge-add" onclick="addEdge();">Add</button>
-                  <button id="edge-update" onclick="updateEdge();">Update</button>
-                  <button id="edge-remove" onclick="removeEdge();">Remove</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <fieldset>
-    <label for="start">Start node: </label>
-    <input type="text" id="start"><br>
-    <label for="finish">Start node: </label>
-    <input type="text" id="finish">
+  <header>
+    <div class="collapse bg-dark" id="navbarHeader">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 col-md-7 py-4">
+            <h4 class="text-white">Projet</h4>
+            <p class="text-muted">Ce projet représente une application visuelle de l'Algorithm Dijkstra pour trouver le plus court chemin entre les sommets.
+            </p>
+          </div>
+          <div class="col-sm-4 offset-md-1 py-4">
+            <h4 class="text-white">Contact</h4>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white">Otmane Boughaba: otmaneboughaba@gmail.com</a></li>
+              <li><a href="#" class="text-white">Hamza Belkhadir:   hamzabk351@gmail.com</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+      <div class="container d-flex justify-content-between">
+        <a href="#" class="navbar-brand d-flex align-items-center">
+          <i class="fa fa-project-diagram"></i>
+          <strong style="margin-left: 10px;">Dijkstra</strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+          aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-  </fieldset>
-  <button onclick="getShortestPath()" value="CLICK ME">Dijkstra</button>
-  <h1>View</h1>
-  <table class="view">
-    <colgroup>
-      <col width="25%" />
-      <col width="25%" />
-      <col width="50%" />
-    </colgroup>
-    <tbody>
-      <tr>
-        <td>
-          <h2>Nodes</h2>
-          <pre id="nodes"></pre>
-        </td>
+  <main role="main">
 
-        <td>
-          <h2>Edges</h2>
-          <pre id="edges"></pre>
-        </td>
 
-        <td>
-          <h2>Network</h2>
 
+
+    <div class="container">
+
+
+
+
+
+
+
+
+
+
+
+      <h1 style="margin: 40px 0px 40px 0px;">Préparer votre graph</h1>
+
+
+
+      <div class="row">
+        <div class="col-4 ">
+
+
+          <!-- NODES -->
+          <div class=" nodes-card">
+
+            <div class="card card-cascade narrower">
+
+
+
+              <!-- Card content -->
+              <div class="card-body card-body-cascade">
+
+                <!-- Label -->
+                <h5 class="pink-text pb-2 pt-1"><i class="fas fa-genderless"></i> Sommets</h5>
+                <!-- Title -->
+                <div class="md-form">
+                  <input type="text" id="node-id" class="form-control">
+                  <label for="node-id">sommet</label>
+                </div>
+                <div class="row float-right">
+
+                  <!-- Button -->
+                  <a class="btn btn-unique" id="node-add" onclick="addNode();">Ajouter</a>
+                  <!-- <a class="btn btn-unique" id="node-update" onclick="updateNode();">Modifier</a> -->
+                  <a class="btn btn-unique" id="node-remove" onclick="removeNode();">Supprimer</a>
+                </div>
+              </div>
+
+              <!-- Card footer -->
+              <div class="card-footer text-muted text-center">
+                Sommets
+              </div>
+
+            </div>
+          </div>
+          <!-- START AND FINISH NODES -->
+
+
+
+
+          <!-- EDGES -->
+          <div class=" edges-card">
+            <div class="card card-cascade narrower">
+
+
+
+              <!-- Card content -->
+              <div class="card-body card-body-cascade">
+
+                <!-- Label -->
+                <h5 class="pink-text pb-2 pt-1"><i class="fas fa-arrows-alt-h"></i> Arrêts</h5>
+                <!-- Title -->
+                <div class="md-form">
+                  <input type="text" id="edge-id" class="form-control" value="1">
+                  <label for="edge-id">id</label>
+                </div>
+                <div class="md-form">
+                  <input type="text" id="edge-from" class="form-control" value="A">
+                  <label for="edge-from">source</label>
+                </div>
+                <div class="md-form">
+                  <input type="text" id="edge-to" class="form-control" value="B">
+                  <label for="edge-to">destination</label>
+                </div>
+                <div class="md-form">
+                  <input type="text" id="edge-capacity" class="form-control" value="10">
+                  <label for="edge-capacity">capacité</label>
+                </div>
+                <div class="row float-right">
+
+                  <!-- Button -->
+                  <a class="btn btn-unique" id="edge-add" onclick="addEdge();">Ajouter</a>
+                  <a class="btn btn-unique" id="edge-update" onclick="updateEdge();">Modifier</a>
+                  <a class="btn btn-unique" id="edge-remove" onclick="removeEdge();">Supprimer</a>
+                </div>
+              </div>
+
+              <!-- Card footer -->
+              <div class="card-footer text-muted text-center">
+                Arrêts
+              </div>
+
+            </div>
+          </div>
+
+          <div class=" dijkstra-card">
+
+
+            <div class="card card-cascade narrower">
+
+
+
+              <!-- Card content -->
+              <div class="card-body card-body-cascade">
+
+                <!-- Label -->
+                <h5 class="pink-text pb-2 pt-1"><i class="fas fa-draw-polygon"></i> Plus court chemin</h5>
+                <!-- Title -->
+                <div class="md-form">
+                  <input type="text" id="start" class="form-control">
+                  <label for="start">Départ</label>
+                </div>
+                <div class="md-form">
+                  <input type="text" id="finish" class="form-control">
+                  <label for="finish">Arrivé</label>
+                </div>
+                <div class="row float-right">
+
+                  <!-- Button -->
+                  <a class="btn btn-success btn-rounded" id="node-add" onclick="getShortestPath()">Dijkstra</a>
+                </div>
+              </div>
+
+              <!-- Card footer -->
+              <div class="card-footer text-muted text-center">
+                Départ / Arrivé
+              </div>
+
+            </div>
+          </div>
+
+
+
+        </div>
+
+
+
+
+        <div class="col-8">
           <div id="mynetwork"></div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          <!-- <div style="margin-top: 920px;margin-left: 70%;">hamza</div> -->
+          <div style="position:absolute ;top: 890px;left: 45%;  ">
+            <table class="table table-bordered table-responsive" style="width: 100%;">
+              <tr>
+                <th>Plus Court Chemin</th>
+                <td id="pcc"></td>
+              </tr>
+              <tr>
+                <th>Coût</th>
+                <td id="longueur">...</td>
+              </tr>
+            </table>
+
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <div class="row tables">
+        <div class="card card-cascade narrower col-12">
+
+
+
+          <!-- Card content -->
+          <div class="card-body card-body-cascade">
+            <div class="row">
+            <div class="col-6">
+              <table id="nodesTable" class="table table-bordered"></table>
+            </div>
+
+            <div class="col-6">
+              <table id="edgesTable" class="table table-bordered"></table>
+
+            </div>
+          </div>
+          </div>
+          <div class="card-footer text-muted text-center">
+            Infos: Sommets - Arrêts
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <h1>View</h1> -->
+    <table class="view">
+      <colgroup>
+        <col width="25%" />
+        <col width="25%" />
+        <col width="50%" />
+      </colgroup>
+      <tbody>
+        <tr>
+          <td>
+            <!-- <h2>Nodes</h2> -->
+            <pre id="nodes" hidden></pre>
+          </td>
+
+          <td>
+            <!-- <h2>Edges</h2> -->
+            <pre id="edges" hidden></pre>
+          </td>
+
+          <td>
+            <!-- <h2>Network</h2> -->
+
+            <!-- <div id="mynetwork"></div> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </main>
+
+  <footer class="text-muted">
+    <div class="container text-center">
+      <b><p style="margin: 25px 0px 25px 0px;">Made by: Otmane Boughaba & Hamza Belkhadir</p></b>
+      <b><p style="margin: 25px 0px 25px 0px;">&copy;2019-2020 | BDCC-1 | Enset Mohammedia </p></b>
+    </div>
+  </footer>
+
+  <!-- JQuery -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.10.1/js/mdb.min.js"></script>
+
+
+
+
+
+
+
+
+
+
   <!-- partial -->
   <!-- <script src='https://visjs.github.io/vis-network/standalone/umd/vis-network.min.js'></script> -->
   <script src='vis-network.js'></script>
   <script src="./script.js"></script>
-
 </body>
 
 </html>
