@@ -249,6 +249,8 @@ function colorShortestPathDefaut(id, from, to, capacity) {
 }
 
 async function getShortestPath() {
+  document.getElementById('pcc').innerText = "";
+
   var gNodes = document.getElementById("nodes").innerHTML;
   var gEdges = document.getElementById("edges").innerHTML;
   var start = document.getElementById("start").value;
@@ -359,6 +361,6 @@ function printEdgesTable(){
       cell1.innerHTML = "ID";
       cell2.innerHTML = "Source";
       cell3.innerHTML = "Destination";
-      cell4.innerHTML = "Capacité";
+      cell4.innerHTML = "Longueur";
     }
 }
